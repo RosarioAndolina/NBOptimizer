@@ -16,9 +16,6 @@ A Python package for numerical optimization using Numba. This package implements
    - [How to Use the Class](#how-to-use-the-class)
 3. [Installation](#installation)
 4. [Examples](#examples)
-   - [Linear Model](#linear-model)
-   - [Exponential Decay](#exponential-decay)
-5. [License](#license)
 
 ---
 
@@ -32,7 +29,9 @@ The Levenberg-Marquardt (LM) algorithm is a widely used method for solving nonli
 
 The update rule for the parameters is given by:
 
-[Δp = -(JᵀJ + λI)⁻¹Jᵀr](https://latex.codecogs.com/svg.image?\Delta p = -(J^T J + \lambda I)^{-1} J^T r)
+$$
+\Delta p = -(J^T J + \lambda I)^{-1} J^T r
+$$
 
 Where:
 - **J** is the Jacobian matrix of the residuals.
@@ -49,7 +48,9 @@ The Gauss-Newton (GN) algorithm is a simplification of the Newton method for lea
 
 The update rule for the parameters is:
 
-[Δp = -(JᵀJ)⁻¹Jᵀr](https://latex.codecogs.com/svg.image?\Delta p = -(J^T J)^{-1} J^T r)
+$$
+\Delta p = -(J^T J)^{-1} J^T r
+$$
 
 Where:
 - **J** is the Jacobian matrix of the residuals.
@@ -113,7 +114,7 @@ The `NBOptimizer` class is the core of the package. It provides the following me
 1. **`__init__`**: Initializes the optimizer with the model, parameters, and settings.
 2. **`set_optimizer`**: Configures the optimization algorithm.
 3. **`set_dtype`**: Sets the data type for computations (e.g., `np.float32` or `np.float64`).
-4. **`get_model`**: Returns the compiled model function.
+4. **`get_model`**: Returns the compiled wrapper of model function.
 5. **`get_residuals`**: Returns the residual function.
 6. **`get_jacobian_function`**: Returns the Jacobian function based on the selected accuracy.
 7. **`optimize`**: Runs the optimization and returns the optimized parameters.
@@ -123,8 +124,7 @@ The `NBOptimizer` class is the core of the package. It provides the following me
 ### How to Use the Class
 1. Define your model function:
    ```python
-   from nboptimizer.core import NBOptimizer
-   from nboptimizer.global import DTYPE
+   from nboptimizer import NBOptimizer, DTYPE
    # DTYPE = np.float32 by default
 
    # y = ax + b
@@ -153,6 +153,23 @@ The `NBOptimizer` class is the core of the package. It provides the following me
    model_wrapper = optimizer.get_model()
    y_fit = model_wrapper(p_opt)
    ```
+Use alwais `DTYPE` to define your array and variables:
+```python
+foo = DTYPE(1.0)
+```
+To change the default DTYPE use:
+```python
+optimizer.set_dtype(np.float64)
+```
+To change the optimizer with the same instance of NBOptimizer:
+```python
+optimizer.set_optimizer("GN")
+```
+To change parameters as instance attribute do this alwais:
+```python
+optimizer.accuracy = 4 # example
+optimizer.setup_optimization()
+```
 
 ### Installation
 To install the package, use pip in the package directory:
