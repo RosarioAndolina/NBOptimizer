@@ -125,6 +125,7 @@ The `NBOptimizer` class is the core of the package. It provides the following me
 1. Define your model function:
    ```python
    from nboptimizer import NBOptimizer, DTYPE
+   from numba import njit
    # DTYPE = np.float32 by default
 
    # y = ax + b
