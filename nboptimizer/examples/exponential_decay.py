@@ -36,7 +36,7 @@ p_true = np.array(
     2.0, 0.2], # A, tau, third exponential decay
     dtype = DTYPE)
 
-args = np.array([t], dtype = DTYPE)
+args = (t,)
 y_true = exponential_decay_model(args, p_true)
 
 y_obs = y_true + DTYPE(0.4) * np.random.normal(size=t.shape).astype(DTYPE)  # Add noise

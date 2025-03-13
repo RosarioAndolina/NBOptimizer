@@ -29,11 +29,13 @@ y_obs = y_true + np.random.normal(0, 0.5, size=x.shape).astype(DTYPE)  # Add noi
 p0 = np.array([1.0, 1.0], dtype=DTYPE)  # Initial guess: slope = 1.0, intercept = 1.0
 bounds = np.array([[2, 3], [3, 5]], dtype=DTYPE)  # Bounds: slope ∈ [2, 3], intercept ∈ [3, 5]
 
+args = (x,)
+
 # Create optimizer instance
 optimizer = NBOptimizer(
     model=linear_model,
     p0=p0,
-    args=np.array([x], dtype=DTYPE),
+    args=args,
     bounds=bounds.T,
     optimizer='LMI',  # Use improved Levenberg-Marquardt
     accuracy=6,       # Use 6th-order finite differences for Jacobian
@@ -44,11 +46,12 @@ optimizer = NBOptimizer(
 # Run optimization
 p_opt = optimizer.optimize(y_obs)
 print("Optimized parameters:", p_opt)
+_model = optimizer.get_model()
 
 # Plot results
 plt.figure(figsize=(10, 6))
 plt.plot(x, y_obs, '.', label="Observed Data")
-plt.plot(x, linear_model(np.array([x], dtype=DTYPE), p_opt), 'r-', label="Fitted Model")
+plt.plot(x, _model(p_opt), 'r-', label="Fitted Model")
 plt.xlabel("x")
 plt.ylabel("y")
 plt.title("Linear Model Optimization")

@@ -95,7 +95,7 @@ class NBOptimizer:
 
     def get_model(self):
         global ARGUMENTS, MODEL
-        ARGUMENTS = DTYPE(self.args)
+        ARGUMENTS = self.args
         MODEL = self.model
         @njit
         def _model(params):
