@@ -129,8 +129,8 @@ The `NBOptimizer` class is the core of the package. It provides the following me
    # DTYPE = np.float32 by default
 
    # y = ax + b
-   # args is a numpy array with the arguments neded by the model
-   # args = np.array([x], dtype = DTYPE) in this example
+   # args is tuple of the arguments neded by the model
+   # args = (x,) in this example
    @njit
    def model(args, p):
        x = args[0]
@@ -148,7 +148,7 @@ The `NBOptimizer` class is the core of the package. It provides the following me
 3. Optimize:
    ```python
    x = np.linspace(0, 10, 100, dtype = DTYPE)
-   args = DTYPE([x])
+   args = (x,)
    optimizer = NBOptimizer(model, p0, args, bounds=bounds.T, optimizer='LMI', accuracy=2)
    p_opt = optimizer.optimize(y_obs) # y_obs are observed data
    model_wrapper = optimizer.get_model()
